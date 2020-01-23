@@ -16,9 +16,9 @@ class BoardTests {
 	}
 
 	@Test
-	fun cantCreateBoardWithNoMines() {
+	fun cantCreateBoardWithBiggerThan100x100() {
 		assertThrows<RuntimeException> {
-			val board = Board(mineQuantity = 0, x = 5, y = 5)
+			val board = Board(mineQuantity = 0, x = 101, y = 101)
 		}
 	}
 
@@ -58,5 +58,29 @@ class BoardTests {
 		val minesBoard2 = board2.cells.flatten().map { it.mine }
 		Assertions.assertNotEquals(minesBoard1, minesBoard2)
 	}
+
+	@Test
+	fun aCellShouldHaveDefinedMinesArround() {
+		val board = Board(mineQuantity = 5, x = 5, y = 5)
+		for (rows in board.cells){
+			for (cell in rows){
+				var total = 0
+				if (board.getCell(cell.x -1, cell.y -1)?.mine == true) total++
+				if (board.getCell(cell.x -1, cell.y)?.mine == true) total++
+				if (board.getCell(cell.x -1, cell.y + 1)?.mine == true) total++
+				if (board.getCell(cell.x, cell.y -1)?.mine == true) total++
+
+				if (board.getCell(cell.x, cell.y + 1)?.mine == true) total++
+				if (board.getCell(cell.x +1, cell.y -1)?.mine == true) total++
+				if (board.getCell(cell.x +1, cell.y)?.mine == true) total++
+				if (board.getCell(cell.x +1 , cell.y + 1)?.mine == true) total++
+				Assertions.assertEquals(cell.minesArround, total)
+			}
+		}
+	}
+
+
+
+
 
 }
