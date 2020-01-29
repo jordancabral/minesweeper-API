@@ -10,7 +10,12 @@ class Game (minesQty: Int, x: Int, y: Int) {
 
     fun reveal(x: Int, y: Int){
         val cell = board.reveal(x, y)
+        cell ?: throw RuntimeException()
         if (cell.mine) status = GameStatus.LOSE
+    }
+
+    fun addFlag(x: Int, y: Int){
+        val cell = board.addFlag(x, y)
     }
 
 }

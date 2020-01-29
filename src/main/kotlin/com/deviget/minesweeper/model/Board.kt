@@ -16,7 +16,7 @@ data class Board(val mineQuantity: Int, val x: Int, val y: Int) {
         for (i in 0 until x){
             var array = arrayOf<Cell>()
             for (j in 0 until y){
-                array += Cell(x = i, y = j, mine = false, visible = true, minesArround = 9)
+                array += Cell(x = i, y = j)
             }
             cells += array
         }
@@ -44,9 +44,15 @@ data class Board(val mineQuantity: Int, val x: Int, val y: Int) {
         }
     }
 
-    fun reveal(x: Int, y: Int): Cell {
-        val cell = cells[x][y]
-        cell.visible = true
+    fun reveal(x: Int, y: Int): Cell? {
+        val cell = getCell(x - 1, y -1)
+        cell?.visible = true
+        return cell
+    }
+
+    fun addFlag(x: Int, y: Int): Cell {
+        val cell = cells[x - 1][y - 1]
+        cell.flagged = true
         return cell
     }
 
