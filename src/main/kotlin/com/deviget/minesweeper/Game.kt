@@ -1,12 +1,15 @@
 package com.deviget.minesweeper
 
 import com.deviget.minesweeper.model.Board
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 
-class Game (minesQty: Int, x: Int, y: Int) {
-
-    var board = Board(minesQty, x, y)
-    var status: GameStatus = GameStatus.RUNNING
-
+@Document
+class Game (
+            @Id
+            var id: String? = null,
+            val board: Board,
+            var status: GameStatus) {
 
     fun reveal(x: Int, y: Int){
         val cell = board.reveal(x, y)
@@ -16,6 +19,14 @@ class Game (minesQty: Int, x: Int, y: Int) {
 
     fun addFlag(x: Int, y: Int){
         val cell = board.addFlag(x, y)
+    }
+
+    companion object {
+        fun create(minesQty: Int, x: Int, y: Int) = run {
+            var board = Board(minesQty, x, y)
+            var status: GameStatus = GameStatus.RUNNING
+            Game(board = board, status = status)
+        }
     }
 
 }
