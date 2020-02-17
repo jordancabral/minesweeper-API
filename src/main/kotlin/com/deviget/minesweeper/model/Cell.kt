@@ -6,4 +6,4 @@ data class Cell(
         var mine: Boolean = false,
         var visible: Boolean = false,
         var flagged: Boolean = false,
-        var minesArround: Int = 0)
+        var minesAround: Int = 0)

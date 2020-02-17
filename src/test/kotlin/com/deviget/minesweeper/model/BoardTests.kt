@@ -60,7 +60,7 @@ class BoardTests {
 	}
 
 	@Test
-	fun aCellShouldHaveDefinedMinesArround() {
+	fun aCellShouldHaveDefinedMinesAround() {
 		val board = Board(mineQuantity = 5, x = 5, y = 5)
 		for (rows in board.cells){
 			for (cell in rows){
@@ -74,7 +74,18 @@ class BoardTests {
 				if (board.getCell(cell.x +1, cell.y -1)?.mine == true) total++
 				if (board.getCell(cell.x +1, cell.y)?.mine == true) total++
 				if (board.getCell(cell.x +1 , cell.y + 1)?.mine == true) total++
-				Assertions.assertEquals(cell.minesArround, total)
+				Assertions.assertEquals(cell.minesAround, total)
+			}
+		}
+	}
+
+	@Test
+	fun revealingACellWithNoMinesAroundShouldRevealAllCellsAround(){
+		val board = Board(mineQuantity = 0, x = 5, y = 5)
+		board.reveal(2,2)
+		for (rows in board.cells){
+			for (cell in rows){
+				Assertions.assertTrue(cell.visible)
 			}
 		}
 	}

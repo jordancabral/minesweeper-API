@@ -1,7 +1,6 @@
 package com.deviget.minesweeper.model
 
 import java.lang.RuntimeException
-import kotlin.random.Random
 
 data class Board(val mineQuantity: Int, val x: Int, val y: Int) {
 
@@ -10,7 +9,7 @@ data class Board(val mineQuantity: Int, val x: Int, val y: Int) {
     init {
 
         // Basic validations
-        if (x < 1 || y < 1 || x > 100 || y > 100) throw RuntimeException() // TODO: Specific Exception
+        if (x < 1 || y < 1 || x > 100 || y > 100) throw RuntimeException() // TODO: Custom Exception
 
         // Initialize cells
         for (i in 0 until x){
@@ -29,7 +28,7 @@ data class Board(val mineQuantity: Int, val x: Int, val y: Int) {
         // Initialize mines counters
         for (i in 0 until x){
             for (j in 0 until y){
-                getCell(i,j)?.minesArround = minesArround(i,j)
+                getCell(i,j)?.minesAround = minesArround(i,j)
             }
         }
     }
@@ -38,15 +37,20 @@ data class Board(val mineQuantity: Int, val x: Int, val y: Int) {
         cells.forEach { row ->
             row.forEach {
                 if (it.mine) print("X")
-                else print("${it.minesArround}")
+                else print("${it.minesAround}")
             }
             println()
         }
     }
 
+    private fun reveal(cell: Cell): Cell? = reveal(cell.x + 1, cell.y + 1)
+
     fun reveal(x: Int, y: Int): Cell? {
         val cell = getCell(x - 1, y -1)
         cell?.visible = true
+        if (cell?.minesAround == 0 ){
+            cellsAround(cell).forEach { if (!it.visible) reveal(it) }
+        }
         return cell
     }
 
@@ -66,23 +70,25 @@ data class Board(val mineQuantity: Int, val x: Int, val y: Int) {
         return null
     }
 
-    fun cellsArround(x: Int, y: Int): List<Cell> {
-        var cellsArround = arrayListOf<Cell>()
+    private fun cellsAround(cell: Cell): List<Cell> =  cellsAround(cell.x, cell.y)
+
+    private fun cellsAround(x: Int, y: Int): List<Cell> {
+        var cellsAround = arrayListOf<Cell>()
 
         for (i in x-1..x+1){
             for(j in y-1..y+1){
                 if (!(i == x && j == y)){
-                    getCell(i, j)?.let { cellsArround.add(it) }
+                    getCell(i, j)?.let { cellsAround.add(it) }
                 }
 
             }
         }
 
-        return cellsArround
+        return cellsAround
     }
 
     private fun minesArround(x: Int, y: Int): Int {
-        val cellsArround = cellsArround(x,y)
+        val cellsArround = cellsAround(x,y)
         var total = 0
         cellsArround.forEach{
             if (it.mine) total ++
