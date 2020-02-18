@@ -53,4 +53,4 @@ class GameController (private val repository: GameRepository) {
 
 data class GameConfig(val minesQty: Int, val x: Int, val y: Int)
 
-data class Coordinates(val minesQty: Int, val x: Int, val y: Int)
+data class Coordinates(val x: Int, val y: Int)
