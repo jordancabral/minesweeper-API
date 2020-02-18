@@ -3,13 +3,15 @@ package com.deviget.minesweeper
 import com.deviget.minesweeper.model.Board
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import java.time.LocalDateTime
 
 @Document
 class Game (
             @Id
             var id: String? = null,
             val board: Board,
-            var status: GameStatus) {
+            var status: GameStatus,
+            val date: LocalDateTime = LocalDateTime.now()) {
 
     fun reveal(x: Int, y: Int){
         val cell = board.reveal(x, y)

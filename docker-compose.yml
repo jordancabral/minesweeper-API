@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  minesweeper:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
