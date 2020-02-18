@@ -11,11 +11,12 @@ API for Deviget Code Test. [Instructions](CHALLENGE.md)
 #### with docker (mongodb running needed)
 
 `docker build -t minesweeper .`
+
 `docker run minesweeper -p 8080:8080`
 
 #### with gradle (mongodb running needed)
 
-./gradlew bootRun
+`./gradlew bootRun`
 
 
 ## Public site
