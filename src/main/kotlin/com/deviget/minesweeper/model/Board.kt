@@ -97,4 +97,8 @@ data class Board(val mineQuantity: Int, val x: Int, val y: Int) {
         return total
     }
 
+    fun toResponse(): List<String> {
+        return this.cells.map { rows -> rows.fold("", { acc, cell -> acc + cell.toResponse() } ) }
+    }
+
 }

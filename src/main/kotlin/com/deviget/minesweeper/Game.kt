@@ -23,6 +23,10 @@ class Game (
         val cell = board.addFlag(x, y)
     }
 
+    fun toResponse(): GameResponse {
+        return GameResponse(board.toResponse(), status, date)
+    }
+
     companion object {
         fun create(minesQty: Int, x: Int, y: Int) = run {
             var board = Board(minesQty, x, y)
@@ -32,6 +36,11 @@ class Game (
     }
 
 }
+
+data class GameResponse (
+        val board: List<String>,
+        var status: GameStatus,
+        val date: LocalDateTime)
 
 enum class GameStatus {
     RUNNING,

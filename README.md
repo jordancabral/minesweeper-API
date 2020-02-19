@@ -26,8 +26,8 @@ https://jordan-minesweeper.herokuapp.com/swagger-ui.html
 
 ### TODO
 
-- Don't show complete cell content in response
 - Detect when yo win the game
+- Add error responses when trying to flag or reveal cell when game is over 
 
 ### Notes
 
